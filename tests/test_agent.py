@@ -11,11 +11,11 @@ async def run_test(test_case):
     """Runs a single test case against the agent."""
     session_service = InMemorySessionService()
     runner = Runner(
-        agent=root_agent, session_service=session_service, app_name="terramind_test_app"
+        agent=root_agent, session_service=session_service, app_name="GaiaSage_test_app"
     )
 
     session = await session_service.create_session(
-        app_name="terramind_test_app",
+        app_name="GaiaSage_test_app",
         user_id=f"test_user_{test_case['id']}",
         session_id=f"test_session_{test_case['id']}",
     )

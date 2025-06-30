@@ -57,11 +57,11 @@ coder_agent = LlmAgent(
 # --- The Root Agent: Orchestrator ---
 
 root_agent = LlmAgent(
-    name="TerraMind_Coordinator",
+    name="GaiaSage_Coordinator",
     model="gemini-2.5-pro",
-    description="The main coordinator for the TerraMind AI co-pilot.",
+    description="The main coordinator for the GaiaSage AI co-pilot.",
     instruction="""
-    You are the main coordinator for the TerraMind AI assistant. You orchestrate a team of specialized agents.
+    You are the main coordinator for the GaiaSage AI assistant. You orchestrate a team of specialized agents.
 
     Your workflow is fixed and you MUST follow it precisely:
     1.  When you receive a user query, your FIRST and ONLY action is to delegate it to the `GuardAgent` for validation.

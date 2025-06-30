@@ -9,18 +9,18 @@ last_updated: 2025-06-30
 
 ## Development Story: Building an AI Copilot in the Geospatial Analysis Field (AI Co-pilot --> AI Agents)
 
-**Project Codename:** TerraMind
+**Project Codename:** GaiaSage
 
 **Vision:**
 In the field of geospatial science, the most valuable insights often emerge from vague ideas like: "How has forest coverage changed over the past decade in a certain region?" or "Which urban areas are the brightest in nighttime lights while also being most vulnerable to heatwaves?"
 
 These questions represent "high-level intentions." However, transforming them into executable analyses requires researchers and analysts to bridge a significant gap: they must write complex query scripts (e.g., Google Earth Engine API), process multi-source satellite data, and manually design analysis workflows. This process is not only time-consuming but also highly technical, excluding many insightful experts.
 
-**TerraMind is born to dismantle this barrier.**
+**GaiaSage is born to dismantle this barrier.**
 
 It is not a simple chatbot, but a specialized **"AI copilot."** Its mission is to understand experts' **"intentions"** and seamlessly translate them into machine-executable **"tasks."**
 
-When an environmental scientist tells TerraMind: "I want to assess the fire damage in a specific area of the Amazon rainforest over the past five years," TerraMind won't immediately return a pile of code. It responds like a true colleague:
+When an environmental scientist tells GaiaSage: "I want to assess the fire damage in a specific area of the Amazon rainforest over the past five years," GaiaSage won't immediately return a pile of code. It responds like a true colleague:
 
 > "Understood. You wish to evaluate fire damage in a specific Amazon region over the past five years. To execute this precisely, I need to confirm a few details:
 >
@@ -28,13 +28,13 @@ When an environmental scientist tells TerraMind: "I want to assess the fire dama
 > 2. Does 'the past five years' mean counting back from today, or a specific year range (e.g., 2020-2024)?
 > 3. Can we identify fire points by analyzing MODIS satellite thermal anomaly data and assess the extent of damage by combining changes in vegetation indices from Landsat imagery?"
 
-In this dialogue, TerraMind demonstrates its core capability: **It collaborates with humans, rather than passively executing commands.**
+In this dialogue, GaiaSage demonstrates its core capability: **It collaborates with humans, rather than passively executing commands.**
 
-Only after the user confirms the details will TerraMind generate precise Google Earth Engine code, accompanied by a clear cost estimate: "This query is estimated to process approximately 5TB of image data, consuming XX GEE computation units."
+Only after the user confirms the details will GaiaSage generate precise Google Earth Engine code, accompanied by a clear cost estimate: "This query is estimated to process approximately 5TB of image data, consuming XX GEE computation units."
 
-If a scientist poses a highly valuable but currently out-of-scope question, such as "Predict high-risk fire points in this area for the next year," TerraMind will politely acknowledge its limitations and faithfully record it: "This is a highly valuable predictive analysis problem. Currently, my capabilities focus primarily on historical data analysis. However, I have logged your request in my improvement log; this will be a direction for my future learning."
+If a scientist poses a highly valuable but currently out-of-scope question, such as "Predict high-risk fire points in this area for the next year," GaiaSage will politely acknowledge its limitations and faithfully record it: "This is a highly valuable predictive analysis problem. Currently, my capabilities focus primarily on historical data analysis. However, I have logged your request in my improvement log; this will be a direction for my future learning."
 
-**Ultimately, TerraMind is more than just a tool.** It is an enabler, a catalyst for knowledge. It empowers experts to focus on "asking great questions," while leaving the tedious technical implementation to AI. This enables the exploration of our planet with unprecedented speed and breadth. This project demonstrates not only the ability to build a chat application but also the foresight to design an intelligent system capable of collaborating with human experts.
+**Ultimately, GaiaSage is more than just a tool.** It is an enabler, a catalyst for knowledge. It empowers experts to focus on "asking great questions," while leaving the tedious technical implementation to AI. This enables the exploration of our planet with unprecedented speed and breadth. This project demonstrates not only the ability to build a chat application but also the foresight to design an intelligent system capable of collaborating with human experts.
 
 ---
 

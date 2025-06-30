@@ -11,6 +11,8 @@ last_updated: 2025-06-30
 
 This project is an AI agent designed to assist geospatial analysts, environmental scientists, and other researchers by translating high-level, natural language questions into executable analysis code for platforms like Google Earth Engine.
 
+[中文版](README_CN.md)
+
 ## Overview
 
 GaiaSage is built to understand the *intent* behind a user's query, engage in a dialogue to clarify requirements (such as study area and time frame), and then generate the necessary scripts to perform the analysis.
@@ -36,7 +38,7 @@ GuardAgent  ──(If Valid)──▶ PlannerAgent ⇄ User
 
 ## Project Status
 
-This project is currently under active development. The execution plan can be found in [`plans/01_terramind_init_plan.md`](plans/01_terramind_init_plan.md:1).
+This project is currently under active development. The execution plan can be found in [`plans/01_init_plan.md`](plans/01_init_plan.md:1).
 
 ## Getting Started
 
@@ -70,7 +72,7 @@ This project is currently under active development. The execution plan can be fo
     cd src
     uv run python -m google.adk.cli web
     ```
-    
+
 ## Example chat
 
 Here is a [example chat](chat.md) about conducting deforestation analysis in Borneo and final code running on GEE.

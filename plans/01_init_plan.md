@@ -4,7 +4,7 @@ reviewed: true
 last_updated: 2025-06-30
 ---
 
-# Execution Plan: TerraMind (The AI Does the Work)
+# Execution Plan: GaiaSage (The AI Does the Work)
 
 ## 1. Core Principle
 
