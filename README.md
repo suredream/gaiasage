@@ -70,8 +70,7 @@ This project is currently under active development. The execution plan can be fo
     cd src
     uv run python -m google.adk.cli web
     ```
-
-
+    
 ## Example chat
 
 Here is a [example chat](chat.md) about conducting deforestation analysis in Borneo and final code running on GEE.
