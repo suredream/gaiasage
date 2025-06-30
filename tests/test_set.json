@@ -1,0 +1,89 @@
+[
+  {
+    "id": "001",
+    "description": "Happy Path - Incomplete Request (Vegetation)",
+    "user_input": "I want to see the change in vegetation.",
+    "expected_response": "To analyze vegetation change, I need to know the specific location and the time range you are interested in. Could you please provide them?"
+  },
+  {
+    "id": "002",
+    "description": "Happy Path - Incomplete Request (Nightlight)",
+    "user_input": "Compare the nightlight data for 2015 and 2023.",
+    "expected_response": "I can certainly compare the nightlight data for those years. Which city or region are you interested in?"
+  },
+  {
+    "id": "003",
+    "description": "Happy Path - Incomplete Request (Complex)",
+    "user_input": "Analyze the lake changes in the Tibetan Plateau.",
+    "expected_response": "Analyzing lake changes in the Tibetan Plateau is a great topic. To proceed, I need to know the time period you're interested in."
+  },
+  {
+    "id": "004",
+    "description": "Boundary Guardrail - Off-topic (General Knowledge)",
+    "user_input": "What is the capital of France?",
+    "expected_response": "I am a professional geospatial analysis assistant and cannot answer questions outside this domain."
+  },
+  {
+    "id": "005",
+    "description": "Boundary Guardrail - Off-topic (Simple Chat)",
+    "user_input": "Tell me a joke.",
+    "expected_response": "I am a professional geospatial analysis assistant and cannot answer questions outside this domain."
+  },
+  {
+    "id": "006",
+    "description": "Boundary Guardrail - Adjacent but Invalid Task (Hardware Recommendation)",
+    "user_input": "Can you recommend a good drone for photogrammetry?",
+    "expected_response": "My expertise is in analyzing geospatial data, not in providing hardware recommendations. I can't advise on specific drone models."
+  },
+  {
+    "id": "007",
+    "description": "Boundary Guardrail - Vague and Ambiguous Intent",
+    "user_input": "Show me something interesting.",
+    "expected_response": "I can show you many interesting things! Are you interested in urban development, agricultural changes, natural disasters, or something else?"
+  },
+  {
+    "id": "008",
+    "description": "Full Path - Code Generation (Nightlight)",
+    "user_input": "Please generate GEE code to compare the nightlight data for Cairo, Egypt between 2015 and 2023.",
+    "expected_response_contains": [
+      "Here is the generated code",
+      "templates/gee/nightlight_comparison.py.tpl",
+      "YEAR_1: 2015",
+      "YEAR_2: 2023",
+      "AREA_OF_INTEREST_GEOJSON"
+    ]
+  },
+  {
+    "id": "009",
+    "description": "Full Path - Code Generation (NDVI)",
+    "user_input": "I need to see the NDVI time series for the Amazon rainforest from January 2020 to December 2023.",
+    "expected_response_contains": [
+      "Here is the generated code",
+      "templates/gee/ndvi_time_series.py.tpl",
+      "START_DATE: 2020-01-01",
+      "END_DATE: 2023-12-31"
+    ]
+  },
+  {
+    "id": "010",
+    "description": "Advanced Boundary - Unsupported but Valid Request (Prediction)",
+    "user_input": "Using historical data, predict next year's deforestation hotspots in Brazil.",
+    "expected_response": "That is a very valuable predictive analysis question. Currently, my capabilities are focused on historical data analysis and I cannot make predictions. I have logged your request for future development."
+  },
+  {
+    "id": "011",
+    "description": "New Feature - Distance Calculation (Happy Path)",
+    "user_input": "What is the distance in kilometers between Paris, France and Tokyo, Japan?",
+    "expected_response_contains": [
+      "The distance between",
+      "is approximately",
+      "kilometers"
+    ]
+  },
+  {
+    "id": "012",
+    "description": "New Feature - Distance Calculation (Incomplete)",
+    "user_input": "How far is it from the Eiffel Tower?",
+    "expected_response": "I can get the location of the Eiffel Tower, but I need a second point to calculate the distance to. What is the other location?"
+  }
+]
