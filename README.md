@@ -35,7 +35,8 @@ GuardAgent  ──(If Valid)──▶ PlannerAgent ⇄ User
                  ↓
            Final Output
 ```
-![](demo.gif]
+
+![Demo](https://github.com/suredream/gaiasage/blob/main/assets/demo.gif?raw=true)
 
 
 ## Project Status
