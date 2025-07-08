@@ -35,6 +35,8 @@ GuardAgent  ──(If Valid)──▶ PlannerAgent ⇄ User
                  ↓
            Final Output
 ```
+![](demo.gif]
+
 
 ## Project Status
 
