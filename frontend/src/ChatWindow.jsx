@@ -39,7 +39,18 @@ function ChatWindow() {
       })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        // Try to get error details from response
+        let errorDetail = `HTTP error! status: ${response.status}`
+        try {
+          const errorData = await response.json()
+          if (errorData.detail) {
+            errorDetail = errorData.detail
+          }
+        } catch (e) {
+          // If response is not JSON, use status text
+          errorDetail = response.statusText || errorDetail
+        }
+        throw new Error(errorDetail)
       }
 
       const data = await response.json()
@@ -47,9 +58,14 @@ function ChatWindow() {
       setMessages((prev) => [...prev, assistantMessage])
     } catch (error) {
       console.error('Error sending message:', error)
+      // Show detailed error in development, generic message in production
+      const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      const errorContent = isDevelopment
+        ? `Error: ${error.message}`
+        : 'Sorry, I encountered an error. Please try again.'
       const errorMessage = {
         role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: errorContent,
       }
       setMessages((prev) => [...prev, errorMessage])
     } finally {
