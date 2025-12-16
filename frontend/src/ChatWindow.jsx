@@ -50,6 +50,16 @@ function ChatWindow() {
           // If response is not JSON, use status text
           errorDetail = response.statusText || errorDetail
         }
+        
+        // Provide user-friendly messages for specific status codes
+        if (response.status === 429) {
+          errorDetail = "Rate limit exceeded. Please wait a moment and try again. The API has limits on requests per minute."
+        } else if (response.status === 401) {
+          errorDetail = "Authentication failed. Please check API key configuration."
+        } else if (response.status === 403) {
+          errorDetail = "Access forbidden. Please check API key permissions."
+        }
+        
         throw new Error(errorDetail)
       }
 

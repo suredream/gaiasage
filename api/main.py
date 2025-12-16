@@ -10,8 +10,10 @@ import asyncio
 import logging
 import os
 import traceback
+from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
@@ -19,9 +21,17 @@ from pydantic import BaseModel
 
 from gaiasage.agent import _normalize_output_text, root_agent
 
-# Configure logging
+# Configure logging first
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Load environment variables from .env file (for local development)
+env_path = Path(__file__).parent.parent / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
+    logger.info(f"Loaded environment variables from {env_path}")
+else:
+    load_dotenv()  # Try loading from current directory
 
 app = FastAPI(title="GaiaSage API", version="0.1.0")
 
@@ -116,12 +126,39 @@ async def chat(message: ChatMessage):
     except HTTPException:
         raise
     except Exception as e:
+        error_str = str(e)
         error_trace = traceback.format_exc()
-        logger.error(f"Error processing message: {str(e)}\n{error_trace}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error processing message: {str(e)}"
-        )
+        logger.error(f"Error processing message: {error_str}\n{error_trace}")
+        
+        # Handle specific error types
+        if "429" in error_str or "Too Many Requests" in error_str:
+            raise HTTPException(
+                status_code=429,
+                detail=(
+                    "The API rate limit has been exceeded. Please wait a moment and try again. "
+                    "Google Gemini API has rate limits on the number of requests per minute. "
+                    "If this persists, you may need to upgrade your API plan or wait before making more requests."
+                )
+            )
+        elif "401" in error_str or "Unauthorized" in error_str:
+            raise HTTPException(
+                status_code=401,
+                detail=(
+                    "API authentication failed. Please check that your GOOGLE_API_KEY is correct and valid."
+                )
+            )
+        elif "403" in error_str or "Forbidden" in error_str:
+            raise HTTPException(
+                status_code=403,
+                detail=(
+                    "API access forbidden. Please check your API key permissions and billing status."
+                )
+            )
+        else:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error processing message: {error_str}"
+            )
 
 
 @app.get("/health")

@@ -20,6 +20,20 @@ GaiaSage is an AI co-pilot for geospatial analysis powered by Agno multi-agent f
 
 #### Running the Web Interface
 
+**First, set up your environment variables:**
+
+Create a `.env` file in the root directory:
+```
+GOOGLE_API_KEY=your_google_api_key_here
+```
+
+Or set it directly:
+```bash
+export GOOGLE_API_KEY=your_google_api_key_here
+```
+
+**Then start the servers:**
+
 ```bash
 # Terminal 1: Start the API
 uvicorn api.main:app --reload --port 8000
@@ -56,3 +70,4 @@ PY
 - [DEPLOYMENT.md](DEPLOYMENT.md): Deployment guide for Vercel
 - [ENV_SETUP.md](ENV_SETUP.md): Environment variables configuration
 - [AGENTS.md](AGENTS.md): Agent architecture and design
+- [FREE_MODELS.md](FREE_MODELS.md): Free model API options for testing

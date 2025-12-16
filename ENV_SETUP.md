@@ -15,11 +15,35 @@
 
 ## Local Development
 
-Create a `.env` file in the root directory:
+### Option 1: Using .env file (Recommended)
+
+Create a `.env` file in the root directory (same level as `pyproject.toml`):
 
 ```
 GOOGLE_API_KEY=your_google_api_key_here
 DETERMINISTIC=false
+```
+
+The API will automatically load environment variables from this file when you start the server.
+
+**Note**: Make sure to add `.env` to your `.gitignore` file to avoid committing your API key!
+
+### Option 2: Using environment variables directly
+
+You can also set the environment variable directly in your terminal:
+
+```bash
+# macOS/Linux
+export GOOGLE_API_KEY=your_google_api_key_here
+
+# Then start the server
+uvicorn api.main:app --reload --port 8000
+```
+
+Or set it inline with the command:
+
+```bash
+GOOGLE_API_KEY=your_google_api_key_here uvicorn api.main:app --reload --port 8000
 ```
 
 ## Vercel Configuration
