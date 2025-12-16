@@ -33,7 +33,7 @@
     "id": "006",
     "description": "Boundary Guardrail - Adjacent but Invalid Task (Hardware Recommendation)",
     "user_input": "Can you recommend a good drone for photogrammetry?",
-    "expected_response": "My expertise is in analyzing geospatial data, not in providing hardware recommendations. I can't advise on specific drone models."
+    "expected_response": "I am a professional geospatial analysis assistant and cannot answer questions outside this domain."
   },
   {
     "id": "007",
@@ -68,7 +68,7 @@
     "id": "010",
     "description": "Advanced Boundary - Unsupported but Valid Request (Prediction)",
     "user_input": "Using historical data, predict next year's deforestation hotspots in Brazil.",
-    "expected_response": "That is a very valuable predictive analysis question. Currently, my capabilities are focused on historical data analysis and I cannot make predictions. I have logged your request for future development."
+    "expected_response": "This is a highly valuable predictive analysis problem. Currently, my capabilities focus primarily on historical data analysis, and I cannot perform predictions at this time. I have recorded your request for future model upgrades."
   },
   {
     "id": "011",

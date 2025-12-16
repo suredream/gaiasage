@@ -1,65 +1,55 @@
-import asyncio
-import json
+import pytest
 
-from google.adk import Runner
-from google.adk.sessions import InMemorySessionService
+from gaiasage.agent import (
+    OUT_OF_SCOPE_RESPONSE,
+    PREDICTIVE_RESPONSE,
+    orchestrate_user_message,
+)
+from gaiasage.tools import clear_logged_questions, logged_out_of_scope_questions
 
-from src.gaiasage import root_agent
+
+def setup_function() -> None:
+    clear_logged_questions()
 
 
-async def run_test(test_case):
-    """Runs a single test case against the agent."""
-    session_service = InMemorySessionService()
-    runner = Runner(
-        agent=root_agent, session_service=session_service, app_name="GaiaSage_test_app"
+def test_guard_off_topic_returns_contract_response() -> None:
+    response, state = orchestrate_user_message(
+        "What is the capital of France?", deterministic=True
     )
 
-    session = await session_service.create_session(
-        app_name="GaiaSage_test_app",
-        user_id=f"test_user_{test_case['id']}",
-        session_id=f"test_session_{test_case['id']}",
+    assert response == OUT_OF_SCOPE_RESPONSE
+    assert state.guard_decision == "out_of_scope"
+    assert logged_out_of_scope_questions == []
+
+
+def test_guard_predictive_logs_and_returns_capability_message() -> None:
+    message = (
+        "Using historical data, predict next year's deforestation hotspots in Brazil."
+    )
+    response, state = orchestrate_user_message(message, deterministic=True)
+
+    assert response == PREDICTIVE_RESPONSE
+    assert state.guard_decision == "predictive"
+    assert logged_out_of_scope_questions == [message]
+
+
+def test_coder_not_triggered_without_approval() -> None:
+    # Should delegate guard and halt before coder when approval is False.
+    coder_called = {"called": False}
+
+    def coder_stub(plan: str) -> str:
+        coder_called["called"] = True
+        return f"code for {plan}"
+
+    response, state = orchestrate_user_message(
+        "Compute an NDVI summary for the Amazon rainforest.",
+        approval=False,
+        plan_json='{"task": "ndvi"}',
+        deterministic=True,
+        coder_callable=coder_stub,
     )
 
-    print(f"--- Running Test: {test_case['id']} - {test_case['description']} ---")
-    print(f"User Input: {test_case['user_input']}")
-
-    response_generator = runner.run(
-        user_id=session.user_id,
-        session_id=session.id,
-        new_message=test_case["user_input"],
-    )
-
-    final_response = ""
-    for event in response_generator:
-        if event.content and event.content.parts:
-            for part in event.content.parts:
-                if part.text:
-                    final_response += part.text
-
-    print(f"Agent Response: {final_response}")
-
-    if "expected_response" in test_case:
-        assert final_response == test_case["expected_response"]
-        print("✅ Test Passed")
-    elif "expected_response_contains" in test_case:
-        for expected_text in test_case["expected_response_contains"]:
-            assert expected_text in final_response
-        print("✅ Test Passed")
-
-
-async def main():
-    """Loads test cases and runs them."""
-    with open("tests/test_set.json", "r") as f:
-        test_cases = json.load(f)
-
-    # Filter for GuardAgent tests (F1 and F6)
-    guard_test_ids = {"004", "005", "006", "010"}
-    guard_tests = [tc for tc in test_cases if tc["id"] in guard_test_ids]
-
-    for test_case in guard_tests:
-        await run_test(test_case)
-        print("-" * 50)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    assert response.startswith("Plan not approved")
+    assert state.guard_decision == "delegate"
+    assert state.approved is False
+    assert coder_called["called"] is False
