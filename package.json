@@ -1,0 +1,14 @@
+{
+  "name": "gaiasage",
+  "version": "0.1.0",
+  "description": "GaiaSage geospatial co-pilot with web interface",
+  "scripts": {
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:api": "uvicorn api.main:app --reload --port 8000"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

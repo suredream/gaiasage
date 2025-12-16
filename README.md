@@ -1,6 +1,40 @@
+# GaiaSage
 
+GaiaSage is an AI co-pilot for geospatial analysis powered by Agno multi-agent framework.
 
+## Features
 
+- **Web Interface**: Chat-based interface for geospatial analysis tasks
+- **Multi-Agent System**: Guard, Planner, and Coder agents working together
+- **Geospatial Focus**: Specialized for geospatial analysis tasks only
+
+## Quick Start
+
+### Web Interface (Recommended)
+
+1. **Deploy to Vercel**: See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions
+2. **Set Environment Variables**: Configure `GOOGLE_API_KEY` in Vercel dashboard
+3. **Access**: Open your Vercel deployment URL in a browser
+
+### Local Development
+
+#### Running the Web Interface
+
+```bash
+# Terminal 1: Start the API
+uvicorn api.main:app --reload --port 8000
+
+# Terminal 2: Start the frontend
+cd frontend
+npm install
+npm run dev
+```
+
+Then open http://localhost:3000 in your browser.
+
+#### Command Line Usage
+
+```bash
 uv run python - <<'PY'
 from gaiasage.agent import orchestrate_user_message
 msg = "conduct Deforestation Analysis in Borneo."
@@ -8,13 +42,17 @@ resp, state = orchestrate_user_message(msg, deterministic=True)
 print("response:", resp)
 print("state:", state)
 PY
+```
 
+## Project Structure
 
-uv run python - <<'PY'
-from gaiasage.agent import orchestrate_user_message
+- `src/gaiasage/`: Core agent implementation
+- `api/`: FastAPI backend for web interface
+- `frontend/`: React frontend application
+- `vercel.json`: Vercel deployment configuration
 
-msg = "Compute NDVI time series for the Amazon rainforest from 2020 to 2023."
-resp, state = orchestrate_user_message(msg, deterministic=False)
-print(resp)
-print(state)
-PY
+## Documentation
+
+- [DEPLOYMENT.md](DEPLOYMENT.md): Deployment guide for Vercel
+- [ENV_SETUP.md](ENV_SETUP.md): Environment variables configuration
+- [AGENTS.md](AGENTS.md): Agent architecture and design
