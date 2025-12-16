@@ -13,7 +13,7 @@ GaiaSage is an AI co-pilot for geospatial analysis powered by Agno multi-agent f
 ### Web Interface (Recommended)
 
 1. **Deploy to Vercel**: See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions
-2. **Set Environment Variables**: Configure `GOOGLE_API_KEY` in Vercel dashboard
+2. **Set Environment Variables**: Configure `OPENAI_API_KEY` (DeepSeek API key) in Vercel dashboard
 3. **Access**: Open your Vercel deployment URL in a browser
 
 ### Local Development
@@ -24,13 +24,17 @@ GaiaSage is an AI co-pilot for geospatial analysis powered by Agno multi-agent f
 
 Create a `.env` file in the root directory:
 ```
-GOOGLE_API_KEY=your_google_api_key_here
+OPENAI_API_KEY=your_deepseek_api_key_here
 ```
 
 Or set it directly:
 ```bash
-export GOOGLE_API_KEY=your_google_api_key_here
+export OPENAI_API_KEY=your_deepseek_api_key_here
 ```
+
+**Get your DeepSeek API key**: https://platform.deepseek.com/
+
+**Important**: Make sure you're using a **DeepSeek API key**, not an OpenAI key. DeepSeek keys start with `sk-` (not `sk-proj-`). See [GET_DEEPSEEK_KEY.md](GET_DEEPSEEK_KEY.md) for detailed instructions.
 
 **Then start the servers:**
 
@@ -71,3 +75,4 @@ PY
 - [ENV_SETUP.md](ENV_SETUP.md): Environment variables configuration
 - [AGENTS.md](AGENTS.md): Agent architecture and design
 - [FREE_MODELS.md](FREE_MODELS.md): Free model API options for testing
+- [TROUBLESHOOTING.md](TROUBLESHOOTING.md): Troubleshooting common issues

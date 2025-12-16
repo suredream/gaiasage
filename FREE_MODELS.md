@@ -46,12 +46,12 @@ Currently, the project uses **Google Gemini** models via Agno framework. The dep
 
 2. Update `src/gaiasage/agent.py`:
    ```python
-   from agno.models.openai import OpenAI
+   from agno.models.openai import OpenAIChat
    
    # Replace Gemini with OpenAI
    guard_agent = Agent(
        name="GuardAgent",
-       model=OpenAI(id="gpt-3.5-turbo"),  # Free tier compatible
+       model=OpenAIChat(id="gpt-3.5-turbo"),  # Free tier compatible
        # ... rest of config
    )
    ```
@@ -139,11 +139,11 @@ Currently, the project uses **Google Gemini** models via Agno framework. The dep
 1. Get API key: https://platform.deepseek.com/
 2. Use with OpenAI-compatible configuration:
    ```python
-   from agno.models.openai import OpenAI
+   from agno.models.openai import OpenAIChat
    
    guard_agent = Agent(
        name="GuardAgent",
-       model=OpenAI(
+       model=OpenAIChat(
            id="deepseek-chat",
            base_url="https://api.deepseek.com/v1"
        ),
@@ -199,26 +199,26 @@ Here's a complete example of switching to OpenAI:
 # In src/gaiasage/agent.py
 
 # Change import
-from agno.models.openai import OpenAI  # Instead of Gemini
+from agno.models.openai import OpenAIChat  # Instead of Gemini
 
 # Update guard_agent
 guard_agent = Agent(
     name="GuardAgent",
-    model=OpenAI(id="gpt-3.5-turbo"),  # Free tier compatible
+    model=OpenAIChat(id="gpt-3.5-turbo"),  # Free tier compatible
     # ... rest stays the same
 )
 
 # Update planner_agent
 planner_agent = Agent(
     name="PlannerAgent",
-    model=OpenAI(id="gpt-3.5-turbo"),
+    model=OpenAIChat(id="gpt-3.5-turbo"),
     # ...
 )
 
 # Update coder_agent
 coder_agent = Agent(
     name="CoderAgent",
-    model=OpenAI(id="gpt-3.5-turbo"),
+    model=OpenAIChat(id="gpt-3.5-turbo"),
     # ...
 )
 
@@ -226,7 +226,7 @@ coder_agent = Agent(
 root_team = Team(
     members=[guard_agent, planner_agent, coder_agent],
     name="GaiaSage_Coordinator",
-    model=OpenAI(id="gpt-3.5-turbo"),
+    model=OpenAIChat(id="gpt-3.5-turbo"),
     # ...
 )
 ```

@@ -4,6 +4,9 @@
 This document defines **project-specific rules** for using OpenAI models in GaiaSage.
 If any rule conflicts with `AI_CONVENTIONS.md`, this file takes precedence.
 Always respond in Chinese in Chat mode, while coding and document in English.
+你运行的环境中没有 python 和 pip 命令。
+请始终使用 python3 和 pip3 来执行 Python 相关操作。
+
 
 ---
 

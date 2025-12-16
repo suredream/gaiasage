@@ -47,11 +47,12 @@ app.add_middleware(
 # Check environment variables on startup
 def check_environment():
     """Check if required environment variables are set."""
-    api_key = os.getenv("GOOGLE_API_KEY")
+    api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        logger.warning("GOOGLE_API_KEY environment variable is not set. API calls will fail.")
+        logger.warning("OPENAI_API_KEY environment variable is not set. API calls will fail.")
+        logger.info("Note: Using DeepSeek API, get your key from https://platform.deepseek.com/")
     else:
-        logger.info("GOOGLE_API_KEY is configured (length: %d)", len(api_key))
+        logger.info("OPENAI_API_KEY is configured (length: %d)", len(api_key))
     return api_key is not None
 
 # Check environment on module load
@@ -96,12 +97,12 @@ async def chat(message: ChatMessage):
         logger.info(f"Received chat message: {message.message[:100]}...")
         
         # Check environment variables
-        api_key = os.getenv("GOOGLE_API_KEY")
+        api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
-            logger.error("GOOGLE_API_KEY environment variable is not set")
+            logger.error("OPENAI_API_KEY environment variable is not set")
             raise HTTPException(
                 status_code=500,
-                detail="GOOGLE_API_KEY environment variable is not configured. Please set it in Vercel environment variables."
+                detail="OPENAI_API_KEY environment variable is not configured. Please set it in your environment variables. Get your DeepSeek API key from https://platform.deepseek.com/"
             )
         
         # Call the root agent to process the message
@@ -164,9 +165,10 @@ async def chat(message: ChatMessage):
 @app.get("/health")
 async def health():
     """Health check endpoint."""
-    api_key_configured = os.getenv("GOOGLE_API_KEY") is not None
+    api_key_configured = os.getenv("OPENAI_API_KEY") is not None
     return {
         "status": "healthy",
-        "api_key_configured": api_key_configured
+        "api_key_configured": api_key_configured,
+        "model": "deepseek-chat"
     }
 

@@ -7,14 +7,39 @@ The orchestration state remains explicit in Python to avoid LLM-managed control 
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass, field
 from typing import Callable, Literal, Optional, Tuple
 
 from agno.agent import Agent
-from agno.models.google import Gemini
+from agno.models.openai import OpenAIChat
 from agno.team import Team
 
 from .tools import log_out_of_scope_question
+
+# Monkey patch to fix developer role bug in agno
+# This patch ensures that "developer" role is converted back to "system"
+# to maintain compatibility with OpenAI-compatible APIs (DeepSeek, OpenAI, etc.)
+# Reference: https://github.com/agno-agi/agno/issues/1757
+_original_format_message = OpenAIChat._format_message
+
+def _patched_format_message(self, message, compress_tool_results: bool = False):
+    """Patched format_message that fixes developer role conversion bug."""
+    # Call original method
+    result = _original_format_message(self, message, compress_tool_results)
+    
+    # Fix: Convert "developer" role back to "system" if present
+    # The result is a Dict[str, Any] according to the method signature
+    if isinstance(result, dict) and result.get("role") == "developer":
+        result["role"] = "system"
+    
+    return result
+
+# Apply the monkey patch
+OpenAIChat._format_message = _patched_format_message
+
+# Get API key from environment
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
 
 # --- Contracted responses used by the Guard agent ---
 OUT_OF_SCOPE_RESPONSE = "I am a professional geospatial analysis assistant and cannot answer questions outside this domain."
@@ -41,7 +66,11 @@ class OrchestrationState:
 # 1. The Guard Agent: Handles F1 (Scope) and F6 (Capability)
 guard_agent = Agent(
     name="GuardAgent",
-    model=Gemini(id="gemini-2.0-flash-lite"),
+    model=OpenAIChat(
+        id="deepseek-chat",
+        base_url="https://api.deepseek.com/v1",
+        api_key=OPENAI_API_KEY if OPENAI_API_KEY else None,
+    ),
     description="A gatekeeper agent that validates all user queries for scope (F1) and capability (F6).",
     instructions="""
     You are a security and validation guard for a geospatial AI assistant. You have two primary tasks:
@@ -65,7 +94,11 @@ guard_agent = Agent(
 # 2. The Planner Agent: Handles F2, F3, F4 (Collaborative Dialogue)
 planner_agent = Agent(
     name="PlannerAgent",
-    model=Gemini(id="gemini-2.0-flash-lite"),
+    model=OpenAIChat(
+        id="deepseek-chat",
+        base_url="https://api.deepseek.com/v1",
+        api_key=OPENAI_API_KEY if OPENAI_API_KEY else None,
+    ),
     description="An expert geospatial analyst that collaborates with the user to turn goals into a step-by-step plan.",
     instructions="""
     You are a friendly and professional geospatial analyst. Your goal is to collaborate with the user to create a
@@ -87,7 +120,11 @@ planner_agent = Agent(
 # 3. The Coder Agent: Generates Code and Estimates Cost (F5)
 coder_agent = Agent(
     name="CoderAgent",
-    model=Gemini(id="gemini-1.5-flash"),
+    model=OpenAIChat(
+        id="deepseek-chat",
+        base_url="https://api.deepseek.com/v1",
+        api_key=OPENAI_API_KEY if OPENAI_API_KEY else None,
+    ),
     description=(
         "A programming expert that takes a final JSON analysis plan and generates executable Google Earth Engine "
         "JavaScript code, then provides a cost estimate."
@@ -114,7 +151,11 @@ coder_agent = Agent(
 root_team = Team(
     members=[guard_agent, planner_agent, coder_agent],
     name="GaiaSage_Coordinator",
-    model=Gemini(id="gemini-2.0-flash-lite"),
+    model=OpenAIChat(
+        id="deepseek-chat",
+        base_url="https://api.deepseek.com/v1",
+        api_key=OPENAI_API_KEY if OPENAI_API_KEY else None,
+    ),
     description="The main coordinator for the GaiaSage AI co-pilot.",
     instructions="""
     You are the main coordinator for the GaiaSage AI assistant. You orchestrate a team of specialized agents.
@@ -128,7 +169,6 @@ root_team = Team(
         the `CoderAgent`, providing it with the JSON plan that was generated in the previous step. If the user does not
         approve, you will stop.
     """,
-    respond_directly=True,
 )
 
 # Alias retained for compatibility with prior entry point naming

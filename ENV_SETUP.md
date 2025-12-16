@@ -4,9 +4,10 @@
 
 ### For Vercel Deployment
 
-1. **GOOGLE_API_KEY**: Your Google Gemini API key
-   - Get your API key from: https://makersuite.google.com/app/apikey
+1. **OPENAI_API_KEY**: Your DeepSeek API key (using OpenAI-compatible API)
+   - Get your API key from: https://platform.deepseek.com/
    - Set this in Vercel dashboard: Settings → Environment Variables
+   - **Note**: Even though it's called OPENAI_API_KEY, this is for DeepSeek API
 
 ### Optional Environment Variables
 
@@ -20,7 +21,7 @@
 Create a `.env` file in the root directory (same level as `pyproject.toml`):
 
 ```
-GOOGLE_API_KEY=your_google_api_key_here
+OPENAI_API_KEY=your_deepseek_api_key_here
 DETERMINISTIC=false
 ```
 
@@ -34,7 +35,7 @@ You can also set the environment variable directly in your terminal:
 
 ```bash
 # macOS/Linux
-export GOOGLE_API_KEY=your_google_api_key_here
+export OPENAI_API_KEY=your_deepseek_api_key_here
 
 # Then start the server
 uvicorn api.main:app --reload --port 8000
@@ -43,7 +44,7 @@ uvicorn api.main:app --reload --port 8000
 Or set it inline with the command:
 
 ```bash
-GOOGLE_API_KEY=your_google_api_key_here uvicorn api.main:app --reload --port 8000
+OPENAI_API_KEY=your_deepseek_api_key_here uvicorn api.main:app --reload --port 8000
 ```
 
 ## Vercel Configuration
@@ -51,6 +52,21 @@ GOOGLE_API_KEY=your_google_api_key_here uvicorn api.main:app --reload --port 800
 1. Go to your Vercel project dashboard
 2. Navigate to Settings → Environment Variables
 3. Add the following variables:
-   - `GOOGLE_API_KEY`: Your Google Gemini API key
+   - `OPENAI_API_KEY`: Your DeepSeek API key (get from https://platform.deepseek.com/)
    - (Optional) `DETERMINISTIC`: "false" for production
+
+## Getting Your DeepSeek API Key
+
+1. Visit https://platform.deepseek.com/
+2. Sign up or log in
+3. Navigate to API Keys section
+4. Create a new API key
+5. Copy the key and add it to your environment variables
+
+## Model Information
+
+- **Model**: deepseek-chat
+- **Provider**: DeepSeek (OpenAI-compatible API)
+- **Base URL**: https://api.deepseek.com/v1
+- **Free Tier**: Available with generous limits
 
